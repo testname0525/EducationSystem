@@ -16,3 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
+    Route::view('/login', 'admin.login');
+    Route::post('/login', [App\Http\Controllers\admin\LoginController::class, 'login'])->name('login');
+    Route::post('/logout', [App\Http\Controllers\admin\LoginController::class,'logout'])->name('logout');
+    Route::view('/register', 'admin.register');
+    Route::post('/register', [App\Http\Controllers\admin\RegisterController::class, 'register'])->name('register');
+    Route::view('/home', 'admin.home')->middleware('auth:admin')->name('home');
+});
