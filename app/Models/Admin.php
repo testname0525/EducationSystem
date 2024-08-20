@@ -14,6 +14,7 @@ class Admin extends User
 
     protected $fillable = [
         'name',
+        'kana',
         'email',
         'password',
     ];

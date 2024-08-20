@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if($guard == "admin" && Auth::guard($guard)->check()) {   //追記
-                return redirect('admin/home');                        //追記
+                return redirect('admin/top');                        //追記
             }                                                         //追記
             if (Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);

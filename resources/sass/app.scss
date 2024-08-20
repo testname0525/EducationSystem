@@ -6,3 +6,44 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+//admin.login
+// .navbar{
+//     display: none;
+// }
+
+.nav_register,
+.nav_login{
+    color: #747474;
+    text-align: right;
+    padding-top: 30px;
+    padding-right: 30px;
+    a{
+        display: inline;
+    }
+}
+
+.admin_login-title,
+.admin_register-title{
+    color: #707070;
+    font-size: 40px;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.label_color{
+    color: #898989;
+}
+
+.btn_origin{
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn_color{
+    width: 200px;
+    background-color: #646464;
+    color: #fff;
+    border-radius: 0%;
+}

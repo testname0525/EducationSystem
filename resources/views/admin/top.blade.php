@@ -1,4 +1,4 @@
-@extends('layouts.admin')       <!-- 修正 -->
+@extends('admin.layouts.app')       <!-- 修正 -->
 
 @section('content')
 <div class="container">

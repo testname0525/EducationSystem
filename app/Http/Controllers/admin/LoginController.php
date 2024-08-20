@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;                        //追記
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -30,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/home';                  //修正
+    protected $redirectTo = '/admin/top';                  //修正
 
     /**
      * Create a new controller instance.
@@ -40,7 +41,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest:admin')->except('logout'); //修正
-        $this->middleware('auth')->only('logout');
+        // $this->middleware('auth')->only('logout');
     }
 
     protected function guard()                              //追記

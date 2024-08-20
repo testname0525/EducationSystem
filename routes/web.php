@@ -22,10 +22,15 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
-    Route::view('/login', 'admin.login');
-    Route::post('/login', [App\Http\Controllers\admin\LoginController::class, 'login'])->name('login');
-    Route::post('/logout', [App\Http\Controllers\admin\LoginController::class,'logout'])->name('logout');
-    Route::view('/register', 'admin.register');
-    Route::post('/register', [App\Http\Controllers\admin\RegisterController::class, 'register'])->name('register');
-    Route::view('/home', 'admin.home')->middleware('auth:admin')->name('home');
+    Route::middleware('guest:admin')->group(function(){
+        Route::view('/login', 'admin.auth.login')->name('show.login');
+        Route::post('/login', [App\Http\Controllers\Admin\LoginController::class, 'login'])->name('show.login.post');
+        Route::view('/register', 'admin.auth.register')->name('show.register');
+        Route::post('/register', [App\Http\Controllers\Admin\RegisterController::class, 'register'])->name('show.register.post');
+    });
+
+    Route::middleware('auth:admin')->group(function(){
+        Route::post('/logout', [App\Http\Controllers\Admin\LoginController::class,'logout'])->name('logout');
+        Route::view('/top', 'admin.top')->name('show.top');
+    });
 });

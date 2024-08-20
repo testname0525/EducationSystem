@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/admin/home';          //修正
+    protected $redirectTo = '/admin/top';          //修正
 
     /**
      * Create a new controller instance.
@@ -57,6 +57,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'kana' => ['required', 'string', 'max:255', 'regex:/^[ァ-ヶー]+$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:admins'],     //修正
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -72,6 +73,7 @@ class RegisterController extends Controller
     {
         return Admin::create([                              //修正
             'name' => $data['name'],
+            'kana' => $data['kana'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
