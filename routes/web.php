@@ -24,13 +24,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function(){
         Route::view('/login', 'admin.auth.login')->name('show.login');
-        Route::post('/login', [App\Http\Controllers\Admin\LoginController::class, 'login'])->name('show.login.post');
+        Route::post('/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login'])->name('show.login.post');
         Route::view('/register', 'admin.auth.register')->name('show.register');
-        Route::post('/register', [App\Http\Controllers\Admin\RegisterController::class, 'register'])->name('show.register.post');
+        Route::post('/register', [App\Http\Controllers\Admin\Auth\RegisterController::class, 'register'])->name('show.register.post');
     });
 
     Route::middleware('auth:admin')->group(function(){
-        Route::post('/logout', [App\Http\Controllers\Admin\LoginController::class,'logout'])->name('logout');
-        Route::view('/top', 'admin.top')->name('show.top');
+        Route::post('/logout', [App\Http\Controllers\Admin\Auth\LoginController::class,'logout'])->name('logout');
+        Route::get('/top', [App\Http\Controllers\Admin\TopController::class,'showTop'])->name('show.top')->middleware('admin');
+        Route::get('/banner_edit', [App\Http\Controllers\Admin\BannerController::class,'showBannerEdit'])->name('show.banner.edit');
     });
 });

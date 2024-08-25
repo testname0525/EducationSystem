@@ -7,10 +7,13 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-//admin.login
-// .navbar{
-//     display: none;
-// }
+.bg-origin{
+    background-color: #49ECF2;
+}
+
+.color-origin{
+    color: #fff;
+}
 
 .nav_register,
 .nav_login{
@@ -46,4 +49,10 @@
     background-color: #646464;
     color: #fff;
     border-radius: 0%;
+    &-sub{
+        text-align: center;
+        width: 120px;
+        border-radius: 10px;
+        margin-right: 10px;
+    }
 }

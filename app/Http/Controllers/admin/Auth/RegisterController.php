@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;           //修正
+namespace App\Http\Controllers\Admin\Auth;           //修正
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;         //追記

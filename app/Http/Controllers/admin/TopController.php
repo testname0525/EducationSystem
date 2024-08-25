@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Models\Admin;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class TopController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +27,7 @@ class HomeController extends Controller
      */
     public function showTop()
     {
-        return view('admin.top');
+        $admin = Auth::guard('admin')->user();
+        return view('admin.top', compact('admin'));
     }
 }
