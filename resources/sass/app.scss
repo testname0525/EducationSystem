@@ -56,3 +56,50 @@
         margin-right: 10px;
     }
 }
+
+// banner
+.back_btn{
+    a{
+        text-decoration: none;
+        color: #050505;
+    }
+}
+
+.banner_title{
+    font-size: 32px;
+}
+
+.banner_rows{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.banner_row{
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    &-img{
+        background-color: #333;
+        width: 120px;
+        height: 80px;
+    }
+    &-destroy{
+        width: 30px;
+        height: 25px;
+        img{
+            width: inherit;
+            height: inherit;
+        }
+    }
+}
+
+.banner_create{
+    margin-top: 20px;
+    width: 30px;
+    height: 30px;
+        img{
+            width: inherit;
+            height: inherit;
+        }
+}
