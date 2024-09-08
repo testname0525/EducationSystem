@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,8 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
         Route::get('/article_list', [App\Http\Controllers\Admin\ArticleController::class,'showArticleList'])->name('show.article.list');
         Route::get('/curriculum_list', [App\Http\Controllers\Admin\CurriculumController::class,'showCurriculumList'])->name('show.curriculum.list');
         Route::get('/banner_edit', [App\Http\Controllers\Admin\BannerController::class,'showBannerEdit'])->name('show.banner.edit');
+        Route::post('/banner_edit', [App\Http\Controllers\Admin\BannerController::class,'store'])->name('show.banner.store');
+        Route::put('/banners/{banner}', [App\Http\Controllers\Admin\BannerController::class, 'update'])->name('show.banner.update');
+        Route::delete('/banner_edit/{banner}', [App\Http\Controllers\Admin\BannerController::class,'destroy'])->name('show.banner.destroy');
     });
 });

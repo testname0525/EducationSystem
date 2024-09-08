@@ -74,7 +74,7 @@
     margin-left: 50px;
 }
 
-.banner_row{
+.banner_row,.banner_row-form{
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -83,10 +83,16 @@
         background-color: #333;
         width: 120px;
         height: 80px;
+        img{
+            width: inherit;
+            height: inherit;
+        }
     }
     &-destroy{
         width: 30px;
         height: 25px;
+        border: none;
+        background-color: #fff;
         img{
             width: inherit;
             height: inherit;
@@ -98,8 +104,14 @@
     margin-top: 20px;
     width: 30px;
     height: 30px;
+    border: none;
+    background-color: #fff;
         img{
             width: inherit;
             height: inherit;
         }
+}
+
+input[type="file"]{
+    color: transparent;
 }
