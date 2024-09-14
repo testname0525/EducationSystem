@@ -115,3 +115,105 @@
 input[type="file"]{
     color: transparent;
 }
+
+// user curriculum_list
+.curriculum__container{
+    button{
+        border-style: none;
+    }
+}
+
+.schedule__row{
+    margin-top: 20px;
+    margin-left: 40px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.schedule__change{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.schedule__title{
+    margin-bottom: 0;
+}
+
+.curriculum__wrapper{
+    margin-top: 60px;
+    display: flex;
+    gap: 40px;
+}
+
+.grades{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+}
+
+.grade__btn{
+    width: 120px;
+    button{
+        border-radius: 14px;
+        width: inherit;
+    }
+}
+.grade__btn--display{
+    width: 120px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.grades__btn--0,
+.grades__btn--1,
+.grades__btn--2,
+.grades__btn--3,
+.grades__btn--4,
+.grades__btn--5{
+    background-color: #89E5F5;
+}
+
+.grades__btn--6,
+.grades__btn--7,
+.grades__btn--8{
+    background-color: #77E4D4;
+}
+
+.grades__btn--9,
+.grades__btn--10,
+.grades__btn--11{
+    background-color: #94CF57;
+}
+
+.cards{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 40px;
+}
+
+.card{
+    width: 220px;
+    transition: opacity 0.7s;
+    &:hover{
+        opacity: 0.7;
+    }
+    .img{
+        margin: 10px;
+        width: 90%;
+        height: 130px;
+        background-color: #000;
+    }
+    .curriculum__title{
+        margin-left: 10px;
+        font-size: 18px;
+    }
+    .delivery{
+        margin-top: 20px;
+        margin-left: 10px;
+        line-height: 1.0em;
+    }
+}
+
