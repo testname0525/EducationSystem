@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('profile_image')->nullable();
-            $table->unsignedInteger('grade_id');
+            $table->unsignedInteger('grade_id')->default(1);
             $table->timestamps();
         });
     }

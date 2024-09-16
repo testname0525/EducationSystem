@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('delivery_times', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('curriculums_id', 10);
+            $table->unsignedBigInteger('curriculums_id');
             $table->dateTime('delivery_from');
             $table->dateTime('delivery_to');
             $table->timestamps();
