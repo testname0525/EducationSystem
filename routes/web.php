@@ -44,6 +44,6 @@ Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
 
 Route::prefix('user')->namespace('User')->name('user.')->group(function () {
     Route::get('/top', [App\Http\Controllers\User\TopController::class,'showTop'])->name('show.top');
-    Route::get('/delivery', [App\Http\Controllers\User\DliveryController::class,'showDelivery'])->name('show.delivery');
+    Route::get('/delivery', [App\Http\Controllers\User\DeliveryController::class,'showDelivery'])->name('show.delivery');
     Route::get('/curriculum_list', [App\Http\Controllers\User\CurriculumController::class,'showCurriculumList'])->name('show.curriculum.list');
 });

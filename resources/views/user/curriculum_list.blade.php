@@ -5,10 +5,10 @@
     <div class="back_btn"><a href="{{ route('user.show.top') }}">←戻る</a></div>
     <div class="schedule__row">
         <div class="schedule__change">
-            <button type="button" class="schedule__back">◀</button>
+            <button type="button" class="schedule__back" id="prevMonth">◀</button>
             <p class="schedule__title" id="scheduleTitle">
-                <span id="scheduleYear">２０２４</span>年<span id="scheduleMonth">８</span>月スケジュール</p>
-            <button type="button" class="schedule__next">▶</button>
+                <span id="scheduleYear"></span>年<span id="scheduleMonth"></span>月スケジュール</p>
+            <button type="button" class="schedule__next" id="nextMonth">▶</button>
         </div>
         <div class="schedule__grade grade__btn--display grade__btn" id="selectedGrade">{{ $initialGrade -> name }}</div>
     </div>
@@ -16,51 +16,28 @@
     <div class="curriculum__wrapper">
         <aside class="grades">
             @foreach($grades as $index => $grade)
-            <div class="grade__btn"><button type="button" class="grades__btn--{{ $index % 12 }}" data-grade="{{ $grade -> name }}">{{ $grade -> name }}</button></div>
+            <div class="grade__btn">
+                <button type="button" class="grades__btn--{{ $index % 12 }} {{$grade -> id == $initialGrade -> id ? 'active' : '' }}" data-grade="{{ $grade -> name }}" data-grade-id="{{ $grade -> id}}">
+                    {{ $grade -> name }}
+                </button>
+            </div>
             @endforeach
         </aside>
         <div class="curriculum__main">
-            <div class="cards">
-                <a href="/" class="card">
-                    <div class="img"><img src="" alt="">画像</div>
-                    <h3 class="curriculum__title">授業タイトル</h3>
+            <div class="cards" id="curriculumCards">
+                @foreach($curriculums as $curriculum)
+                <a href="{{ route('user.show.delivery') }}" class="card">
+                    <div class="img"><img src="{{ $curriculum -> thumbnail }}" alt="{{ $curriculum -> title }}"></div>
+                    <h3 class="curriculum__title">{{ $curriculum -> title }}</h3>
                     <div class="delivery">
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
+                        @foreach($curriculum -> deliveryTimes as $time)
+                        <p class="delivery__time">
+                            {{ $time -> delivery_from -> format('n月j日 H:i') }} - {{ $time -> delivery_to -> format('H:i')}}
+                        </p>
+                        @endforeach
                     </div>
                 </a>
-                <div class="card">
-                    <div class="img"><img src="" alt="">画像</div>
-                    <h3 class="curriculum__title">授業タイトル</h3>
-                    <div class="delivery">
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="img"><img src="" alt="">画像</div>
-                    <h3 class="curriculum__title">授業タイトル</h3>
-                    <div class="delivery">
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="img"><img src="" alt="">画像</div>
-                    <h3 class="curriculum__title">授業タイトル</h3>
-                    <div class="delivery">
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                        <p class="delivery__time">８月１３日　14:00~15:00</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -68,5 +45,12 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/curriculumList.js') }}"></script>
+<script>
+var initialData = {
+    year: {{ date('Y') }},
+    month: {{ date('m') }},
+    gradeId: {{ $initialGrade->id }}
+};
+</script>
+<script src="{{ asset('js/curriculumList.js') }}" data-curriculum-url="{{ route('user.show.curriculum.list') }}"></script>
 @endpush

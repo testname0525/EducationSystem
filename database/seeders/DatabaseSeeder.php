@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Curriculum;
 use App\Models\Banner;
 use App\Models\Grade;
+use App\Models\DeliveryTime;
 use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
@@ -35,6 +36,13 @@ class DatabaseSeeder extends Seeder
         // Curriculum の生成
         Curriculum::factory()->count(40)->create(function () use ($gradeIds, $faker) {
             return ['grade_id' => $faker->randomElement($gradeIds)];
+        });
+
+        // DeliveryTime の生成
+        Curriculum::all()->each(function ($curriculum) {
+            DeliveryTime::factory()->count(rand(1, 3))->create([
+                'curriculums_id' => $curriculum->id
+            ]);
         });
     }
 }
