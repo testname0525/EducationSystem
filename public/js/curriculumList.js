@@ -1,73 +1,84 @@
-// 学年ボタン関係の制御
-$(document).ready(function() {
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$(function() {
+    const $prevMonthBtn = $('.schedule__back');
+    const $nextMonthBtn = $('.schedule__next');
+    const $scheduleYear = $('#scheduleYear');
+    const $scheduleMonth = $('#scheduleMonth');
     const $gradeButtons = $('.grade__btn button');
     const $selectedGradeElement = $('.grade__btn--display');
+    const $curriculumCards = $('#curriculumCards');
+    const initialBackground = $selectedGradeElement.data('initial-background');
 
-    // 初期状態の背景色を設定
-    const $initialButton = $gradeButtons.filter(function() {
-        return $(this).text() === $selectedGradeElement.text();
-    });
-    if ($initialButton.length) {
-        const initialButtonStyle = window.getComputedStyle($initialButton[0]);
-        $selectedGradeElement.css('background', initialButtonStyle.background);
+    let currentDate = new Date(initialData.year, initialData.month - 1);
+    let currentGradeId = initialData.gradeId;
+
+    function updateScheduleTitle() {
+        $scheduleYear.text(currentDate.getFullYear());
+        $scheduleMonth.text(currentDate.getMonth() + 1);
     }
 
-    // 初期状態で選択されているボタンを探す
-    
+    if (initialBackground) {
+        $selectedGradeElement.css('background', initialBackground);
+    }
+
+    function fetchCurriculums() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        
+        console.log('Fetching curriculums:', { year, month, grade_id: currentGradeId });
+
+        $.ajax({
+            url:initialData.baseUrl + "/user/curriculum_list" ,
+            method: 'GET',
+            data: { year: year, month: month, grade_id: currentGradeId },
+            success: function(data) {
+                if (data.html) {
+                    $curriculumCards.html(data.html);
+                } else {
+                    console.error('Expected HTML not found in response');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', status, error);
+                console.log('Response:', xhr.responseText);
+                $curriculumCards.html('<p>カリキュラムの取得に失敗しました。再度お試しください。</p>');
+            }
+        });
+    }
+
+    $prevMonthBtn.on('click', function() {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateScheduleTitle();
+        fetchCurriculums();
+    });
+
+    $nextMonthBtn.on('click', function() {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        updateScheduleTitle();
+        fetchCurriculums();
+    });
+
     $gradeButtons.on('click', function() {
         const gradeName = $(this).data('grade');
+        currentGradeId = $(this).data('grade-id');
         $selectedGradeElement.text(gradeName);
 
-        // ボタンの背景色を取得
         const buttonStyle = window.getComputedStyle(this);
         const background = buttonStyle.background;
 
-        // selectedGradeElementにスタイルを適用
         $selectedGradeElement.css('background', background);
         
-        // 選択されたボタンにアクティブクラスを追加し、他から削除
         $gradeButtons.removeClass('active');
         $(this).addClass('active');
         
-        console.log('Selected grade:',gradeName);
+        fetchCurriculums();
     });
 
-    const initialGrade = $selectedGradeElement.text();
-    $gradeButtons.filter(function(){
-        return $(this).text() === initialGrade;
-    }).addClass('active');
-
-    // 現在の日付を取得
-    let currentDate = new Date();
-    let currentYear = currentDate.getFullYear();
-    let currentMonth = currentDate.getMonth() + 1; // JavaScriptの月は0-11なので+1する
-
-    // 初期表示を設定
-    updateScheduleTitle(currentYear, currentMonth);
-
-    // 前の月へ
-    $('.schedule__back').on('click', function() {
-        currentMonth--;
-        if (currentMonth < 1) {
-            currentMonth = 12;
-            currentYear--;
-        }
-        updateScheduleTitle(currentYear, currentMonth);
-    });
-
-    // 次の月へ
-    $('.schedule__next').on('click', function() {
-        currentMonth++;
-        if (currentMonth > 12) {
-            currentMonth = 1;
-            currentYear++;
-        }
-        updateScheduleTitle(currentYear, currentMonth);
-    });
-
-    // スケジュールタイトルを更新する関数
-    function updateScheduleTitle(year, month) {
-        $('#scheduleYear').text(year);
-        $('#scheduleMonth').text(month);
-    }
+    updateScheduleTitle();
+    fetchCurriculums();
 });
