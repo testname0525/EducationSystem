@@ -1,5 +1,6 @@
 $(document).ready(function() {
     let newRowCount = 0;
+    let deletedBannerIds = [];
     // 新しく追加: 追加ボタンのクリックイベント
     $('#banner_create').click(function() {
         newRowCount++;
@@ -29,7 +30,17 @@ $(document).ready(function() {
     // 新しく追加: 動的に追加された要素も含めて、削除ボタンのクリックイベントを設定
     $(document).on('click', '.banner_row-destroy', function() {
         if (confirm('このバナーを削除してもよろしいですか？')) {
-            $(this).closest('.banner_row').remove();
+            var bannerId = $(this).data('id');
+            var row = $(this).closest('.banner_row');
+            
+            if (bannerId) {
+                // 既存のバナーの場合
+                deletedBannerIds.push(bannerId);
+                row.hide();
+            } else {
+                // 新しく追加されたバナーの場合
+                row.remove();
+            }
         }
     });
 
@@ -39,17 +50,24 @@ $(document).ready(function() {
         
         var formData = new FormData(this);
         var hasNewImages = false;
+        var hasChanges = false;
 
         // 新しい画像が追加されているかチェック
         $('input[name^="new_images"]').each(function() {
             if (this.files.length > 0) {
                 hasNewImages = true;
+                hasChanges = true;
                 return false; // ループを抜ける
             }
         });
 
-        if (!hasNewImages) {
-            alert('画像が選択されていません');
+        if (deletedBannerIds.length > 0) {
+            formData.append('deleted_banners', JSON.stringify(deletedBannerIds));
+            hasChanges = true;
+        }
+
+        if (!hasChanges) {
+            alert('変更がありません');
             return;
         }
         
@@ -65,6 +83,7 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 alert('エラーが発生しました: ' + xhr.responseText);
+                location.reload();
             }
         });
     });

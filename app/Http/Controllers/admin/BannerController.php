@@ -29,12 +29,19 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->hasFile('new_images')) {
-            return response()->json(['error' => '新しい画像が追加されていません。'], 422);
-        }
+        
         
         DB::beginTransaction();
         try {
+            // 削除されたバナーの処理
+            if ($request->has('deleted_banners')) {
+                $deletedBannerIds = json_decode($request->input('deleted_banners'));
+                foreach ($deletedBannerIds as $id) {
+                    $banner = Banner::findOrFail($id);
+                    Storage::disk('public')->delete($banner->image);
+                    $banner->delete();
+                }
+            }
 
             // 既存の画像の更新
             if ($request->hasFile('images')) {
@@ -125,14 +132,13 @@ class BannerController extends Controller
     {
         DB::beginTransaction();
         try {
-            Storage::disk('public') -> delete($banner->image);
-            $banner -> delete();
-            return redirect() -> route('show.banner.edit')
-                -> with('success', '画像を削除しました');
+            Storage::disk('public')->delete($banner->image);
+            $banner->delete();
+            DB::commit();
+            return response()->json(['success' => true, 'message' => '画像を削除しました']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect() -> back()
-                -> with('error', '画像の削除に失敗しました');
+            return response()->json(['success' => false, 'message' => '画像の削除に失敗しました: ' . $e->getMessage()], 500);
         }
     }
 }
