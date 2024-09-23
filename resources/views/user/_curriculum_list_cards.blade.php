@@ -1,5 +1,5 @@
 @foreach($curriculums as $curriculum)
-<a href="{{ route('user.show.delivery') }}" class="card">
+<a href="{{ route('user.show.delivery') }}" class="card-curriculum">
     <div class="img"><img src="{{ $curriculum -> thumbnail }}" alt="{{ $curriculum -> title }}"></div>
     <h3 class="curriculum__title">{{ $curriculum -> title }}</h3>
     <div class="delivery">
