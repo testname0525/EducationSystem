@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
-            $table->id();
-            $table->string('image');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('grade_id')->references('id')->on('grades');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('banners');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['grade_id']);
+        });
     }
 };

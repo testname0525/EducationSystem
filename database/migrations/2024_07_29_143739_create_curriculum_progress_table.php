@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('curriculum_progress', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('curriculum_id');
             $table->unsignedBigInteger('user_id');
-            $table->tinyInteger('clear_flg');
+            $table->unsignedBigInteger('curriculum_id');
+            $table->boolean('clear_flg')->default(false);
             $table->timestamps();
 
-            $table->foreign('curriculum_id')->references('id')->on('curriculums');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('curriculum_id')->references('id')->on('curricula')->onDelete('cascade');
         });
     }
 

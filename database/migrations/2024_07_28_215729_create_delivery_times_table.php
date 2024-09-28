@@ -6,31 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('delivery_times', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('curriculums_id', 10);
+            $table->unsignedBigInteger('curriculum_id');  
             $table->dateTime('delivery_from');
             $table->dateTime('delivery_to');
             $table->timestamps();
 
-            $table->foreign('curriculums_id')
-                  ->references('id')
-                  ->on('curriculums');
+            $table->foreign('curriculum_id')->references('id')->on('curricula');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('delivery_times');

@@ -6,36 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('curriculums', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('curricula', function (Blueprint $table) {
+            $table->id();
             $table->string('title');
-            $table->string('thumbnail')->nullable();
-            $table->longText('description')->nullable();
-            $table->mediumText('video_url')->nullable();
-            $table->tinyInteger('always_delivery_flg')->default(false);
+            $table->text('description')->nullable();
+            $table->string('video_url')->nullable();
+            $table->boolean('always_delivery_flg')->default(false);
             $table->unsignedBigInteger('grade_id');
             $table->timestamps();
 
-            $table->foreign('grade_id')
-                ->references('id')
-                ->on('grades');
+            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('curriculums');
+        Schema::dropIfExists('curricula');
     }
 };

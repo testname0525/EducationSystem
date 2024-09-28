@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,6 @@ class User extends Authenticatable
         'name_kana',
         'email',
         'password',
-        'profile_image',
         'grade_id',
     ];
 
@@ -37,6 +37,7 @@ class User extends Authenticatable
 
     public function curriculumProgress()
     {
-        return $this->hasMany(CurriculumProgress::class, 'users_id');
+        return $this->hasMany(CurriculumProgress::class);
     }
+
 }

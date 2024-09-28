@@ -9,8 +9,8 @@ class TopController extends Controller
 {
     public function index()
     {
-        $banners = Banner::orderBy('display_order')->get();
-        $articles = Article::latest()->take(5)->get();
-        return view('top', compact('banners', 'articles'));
+        $banners = Banner::orderBy('created_at', 'asc')->get();
+        $articles = Article::orderBy('posted_date', 'desc')->take(5)->get();
+        return view('user.top', compact('banners', 'articles'));
     }
 }
