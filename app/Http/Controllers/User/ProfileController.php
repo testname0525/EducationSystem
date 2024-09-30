@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'name_kana' => 'required|string|max:255',
+            'name_kana' => 'required|string|max:255|regex:/^[ァ-ヶー]+$/u',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
