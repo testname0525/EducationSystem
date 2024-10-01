@@ -25,8 +25,10 @@ class CurriculumController extends Controller
         ->where('grade_id', $gradeId)
         ->where(function ($query) use ($year, $month) {
             $query->whereHas('deliveryTimes', function ($subQuery) use ($year, $month) {
-                $subQuery->whereYear('delivery_from', $year)
-                         ->whereMonth('delivery_from', $month);
+                $subQuery->whereYear('delivery_from', '<=', $year)
+                         ->whereMonth('delivery_from', '<=',$month)
+                         ->whereYear('delivery_to', '>=', $year)
+                         ->whereMonth('delivery_to', '>=',$month);
             })
             ->orWhere('always_delivery_flg', 1);
         })

@@ -40,7 +40,8 @@ $(function() {
                 if (data.html) {
                     $curriculumCards.html(data.html);
                 } else {
-                    console.error('Expected HTML not found in response');
+                $curriculumCards.empty();
+                console.log('No curriculum data found for the selected criteria');
                 }
             },
             error: function(xhr, status, error) {
