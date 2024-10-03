@@ -5,32 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Curriculum extends Model
+class CurriculumProgress extends Model
 {
     use HasFactory;
 
-    protected $table = 'curricula';
+    protected $table = 'curriculum_progress';
 
     protected $fillable = [
-        'title',
-        'description',
-        'video_url',
-        'always_delivery_flg',
-        'grade_id'
+        'user_id',
+        'curriculum_id',
+        'clear_flg',
     ];
 
-    public function grade()
+    public function user()
     {
-        return $this->belongsTo(Grade::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function progress()
+    public function curriculum()
     {
-        return $this->hasMany(CurriculumProgress::class);
-    }
-
-    public function deliveryTimes()
-    {
-        return $this->hasMany(DeliveryTime::class);
+        return $this->belongsTo(Curriculum::class);
     }
 }

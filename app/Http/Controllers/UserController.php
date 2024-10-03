@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -27,14 +26,14 @@ class UserController extends Controller
             'name_kana.regex' => 'カナはカタカナで入力してください。',
         ]);
 
-        $defaultGrade = Grade::firstOrCreate(['name' => 'デフォルト']);
+        $defaultGrade = 1;
 
         $user = User::create([
             'name' => $request->name,
             'name_kana' => $request->name_kana,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'grade_id' => $defaultGrade->id,
+            'grade_id' => $defaultGrade,
         ]);
 
         Auth::login($user);

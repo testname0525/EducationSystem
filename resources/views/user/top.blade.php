@@ -3,13 +3,30 @@
 @section('content')
 <div class="container">
     <div class="banner-container">
-        <img src="path_to_banner_image" alt="バナー画像">
-        <div class="banner-nav">
-            <span class="banner-dot"></span>
-            <span class="banner-dot"></span>
-            <span class="banner-dot"></span>
-            <span class="banner-dot"></span>
-        </div>
+        @if(count($banners) > 0)
+            <div id="banner-carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach($banners as $index => $banner)
+                        <li data-target="#banner-carousel" data-slide-to="{{ $index }}" @if($index == 0) class="active" @endif></li>
+                    @endforeach
+                </ol>
+                <div class="carousel-inner">
+                    @foreach($banners as $index => $banner)
+                        <div class="carousel-item @if($index == 0) active @endif">
+                            <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100" alt="Banner">
+                        </div>
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#banner-carousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#banner-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        @endif
     </div>
 
     <div class="articles">
