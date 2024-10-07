@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +12,7 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        $grades = Grade::all();
-        return view('auth.register', compact('grades'));
+        return view('auth.register');
     }
 
     public function register(Request $request)
@@ -24,7 +22,6 @@ class RegisterController extends Controller
             'name_kana' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'grade_id' => ['required', 'exists:grades,id'],
             'profile_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
@@ -33,7 +30,7 @@ class RegisterController extends Controller
             'name_kana' => $request->name_kana,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'grade_id' => $request->grade_id,
+            'grade_id' => 1,
         ]);
 
         if ($request->hasFile('profile_image')) {

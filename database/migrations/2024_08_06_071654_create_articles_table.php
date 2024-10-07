@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->datetime('posted_date');
-            $table->text('article_contents');
+            $table->text('content');
+            $table->timestamp('posted_date');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class DeliveryController extends Controller
     public function show($id)
     {
         $curriculum = Curriculum::with('grade')->findOrFail($id);
-        return view('user.delivery_show', compact('curriculum'));
+        return view('user.delivery.delivery_show', compact('curriculum'));
     }
 
     public function updateProgress(Request $request, $id)

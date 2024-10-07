@@ -11,11 +11,9 @@ class Article extends Model
 
     protected $fillable = [
         'title',
-        'content',
         'posted_date',
+        'content',
     ];
 
-    protected $casts = [
-        'posted_date' => 'datetime',
-    ];
+    protected $dates = ['posted_date'];
 }

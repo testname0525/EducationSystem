@@ -40,5 +40,10 @@
             @endforeach
         </ul>
     </div>
+
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-danger">ログアウト</button>
+    </form>
 </div>
 @endsection
