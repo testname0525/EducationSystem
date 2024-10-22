@@ -11,10 +11,10 @@ class TopController extends Controller
     public function index()
     {
         try {
-            $banners = Banner::orderBy('display_order', 'asc')->get();
+            $banners = Banner::orderBy('created_at', 'asc')->take(5)->get();
             $articles = Article::orderBy('posted_date', 'desc')->take(5)->get();
         } catch (\Exception $e) {
-            Log::error('Error in TopController@index: ' . $e->getMessage());
+            Log::error('Error in TopController@index: ' . $e->getMessage(), ['exception' => $e]);
             $banners = collect();
             $articles = collect();
         }

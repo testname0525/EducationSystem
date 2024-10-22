@@ -11,6 +11,6 @@ class Banner extends Model
 
     protected $fillable = [
         'image',
-        'display_order',
+        'created_at',
     ];
 }

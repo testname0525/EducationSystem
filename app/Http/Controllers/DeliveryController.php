@@ -6,6 +6,7 @@ use App\Models\Curriculum;
 use App\Models\CurriculumProgress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DeliveryController extends Controller
 {
@@ -19,7 +20,18 @@ class DeliveryController extends Controller
     public function show($id)
     {
         $curriculum = Curriculum::with('grade')->findOrFail($id);
-        return view('user.delivery.delivery_show', compact('curriculum'));
+        $user = Auth::user();
+        $progress = CurriculumProgress::where('user_id', $user->id)
+            ->where('curriculum_id', $curriculum->id)
+            ->first();
+        
+        $now = Carbon::now();
+        $isWithinPeriod = $now->between($curriculum->delivery_from, $curriculum->delivery_to);
+        
+        $canViewVideo = $curriculum->always_open || ($isWithinPeriod && !$progress);
+        $canPressButton = ($curriculum->always_open || $isWithinPeriod) && !$progress;
+
+        return view('user.delivery.show', compact('curriculum', 'canViewVideo', 'canPressButton'));
     }
 
     public function updateProgress(Request $request, $id)

@@ -33,13 +33,3 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
     Route::get('/timetable', [UserController::class, 'timetable'])->name('user.timetable');
 });
-
-// 管理画面ルート
-Route::prefix('admin')->middleware(['auth:admin'])->name('admin.')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
-    Route::resource('articles', App\Http\Controllers\Admin\ArticleController::class);
-    Route::resource('curriculums', App\Http\Controllers\Admin\CurriculumController::class);
-    Route::resource('grades', App\Http\Controllers\Admin\GradeController::class);
-    Route::resource('banners', App\Http\Controllers\Admin\BannerController::class);
-});
