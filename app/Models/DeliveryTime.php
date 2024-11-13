@@ -12,12 +12,12 @@ class DeliveryTime extends Model
     protected $fillable = [
         'curriculum_id',
         'delivery_from',
-        'delivery_to',
+        'delivery_to'
     ];
 
     protected $casts = [
         'delivery_from' => 'datetime',
-        'delivery_to' => 'datetime',
+        'delivery_to' => 'datetime'
     ];
 
     public function curriculum()

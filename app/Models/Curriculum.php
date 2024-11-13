@@ -9,25 +9,26 @@ class Curriculum extends Model
 {
     use HasFactory;
 
-    protected $table = 'curriculums';
-
     protected $fillable = [
         'title',
         'description',
         'video_url',
+        'always_delivery_flg',
         'grade_id',
-        'delivery_start',
-        'delivery_end',
     ];
 
-    protected $dates = [
-        'delivery_start',
-        'delivery_end',
+    protected $casts = [
+        'always_delivery_flg' => 'boolean',
     ];
 
     public function grade()
     {
         return $this->belongsTo(Grade::class);
+    }
+
+    public function deliveryTimes()
+    {
+        return $this->hasMany(DeliveryTime::class);
     }
 
     public function progresses()

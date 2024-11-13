@@ -4,30 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Curriculum;
 use App\Models\CurriculumProgress;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DeliveryController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $curriculums = Curriculum::where('grade_id', $user->grade_id)->get();
-        return view('user.delivery', compact('curriculums'));
+        try {
+            $user = Auth::user();
+            $curriculums = Curriculum::where('grade_id', $user->grade_id)->get();
+            return view('user.delivery', compact('curriculums'));
+        } catch (\Exception $e) {
+            Log::error('Error in DeliveryController@index: ' . $e->getMessage());
+            return back()->with('error', 'エラーが発生しました。');
+        }
     }
 
     public function show($id)
     {
-        $curriculum = Curriculum::with('grade')->findOrFail($id);
-        return view('user.delivery.delivery_show', compact('curriculum'));
+        try {
+            $curriculum = Curriculum::with(['grade', 'deliveryTimes'])->findOrFail($id);
+            $user = Auth::user();
+            
+            $progress = CurriculumProgress::where('user_id', $user->id)
+                ->where('curriculum_id', $id)
+                ->first();
+
+            $now = Carbon::now();
+            $isWithinPeriod = false;
+
+            if (!$curriculum->always_delivery_flg) {
+                foreach ($curriculum->deliveryTimes as $deliveryTime) {
+                    if ($now->between($deliveryTime->delivery_from, $deliveryTime->delivery_to)) {
+                        $isWithinPeriod = true;
+                        break;
+                    }
+                }
+            }
+
+            $canViewVideo = $curriculum->always_delivery_flg || $isWithinPeriod;
+            $canPressButton = (!$progress) && ($curriculum->always_delivery_flg || $isWithinPeriod);
+
+            return view('user.delivery.show', compact('curriculum', 'canViewVideo', 'canPressButton'));
+        } catch (\Exception $e) {
+            Log::error('Error in DeliveryController@show: ' . $e->getMessage());
+            return back()->with('error', 'エラーが発生しました。');
+        }
     }
 
     public function updateProgress(Request $request, $id)
     {
-        CurriculumProgress::updateOrCreate(
-            ['user_id' => Auth::id(), 'curriculum_id' => $id],
-            ['clear_flg' => true]
-        );
-        return response()->json(['success' => true]);
+        try {
+            CurriculumProgress::updateOrCreate(
+                [
+                    'user_id' => Auth::id(),
+                    'curriculum_id' => $id
+                ],
+                ['clear_flg' => true]
+            );
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error('Error in DeliveryController@updateProgress: ' . $e->getMessage());
+            return response()->json(['success' => false], 500);
+        }
     }
 }
