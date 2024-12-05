@@ -40,6 +40,18 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // 管理者用ガード追加
+        'admin' => [
+            'driver' => 'session',   
+            'provider' => 'admins',       
+        ],
+
+        // ユーザー用ガード追加
+        'user' => [
+            'driver' => 'session',   
+            'provider' => 'users',       
+        ],        
     ],
 
     /*
@@ -64,6 +76,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        // 管理者用プロバイダ追加
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],        
 
         // 'users' => [
         //     'driver' => 'database',
