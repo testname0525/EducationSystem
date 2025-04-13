@@ -94,6 +94,26 @@
             background-color: #f9f9f9;
             border-radius: 5px;
         }
+        /* 画像とボタンのスタイル追加 */
+        .image-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
     </style>
     @stack('styles')
 </head>
@@ -107,6 +127,7 @@
                         <li><a href="{{ route('user.login') }}">ログイン</a></li>
                         <li><a href="{{ route('user.register') }}">新規登録</a></li>
                     @else
+                        <li><a href="{{ route('user.delivery') }}">配信コンテンツ</a></li>
                         <li><a href="{{ route('user.timetable') }}">時間割</a></li>
                         <li><a href="{{ route('user.progress') }}">授業進捗</a></li>
                         <li><a href="{{ route('user.profile') }}">プロフィール設定</a></li>
@@ -126,9 +147,9 @@
         @yield('content')
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    @stack('scripts')
+    @yield('scripts')
 </body>
 </html>

@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
     Route::get('/timetable', [UserController::class, 'timetable'])->name('user.timetable');
+    // ユーザー配信画面用ルート - 追加
+    Route::get('/user/delivery', [DeliveryController::class, 'index'])->name('user.delivery.index');
 });
 
 // 管理画面ルート
@@ -46,4 +48,3 @@ Route::prefix('admin')->middleware(['auth:admin'])->name('admin.')->group(functi
     Route::resource('grades', App\Http\Controllers\Admin\GradeController::class);
     Route::resource('banners', App\Http\Controllers\Admin\BannerController::class);
 });
-

@@ -104,7 +104,8 @@
         
         // 画像表示ボタンのクリックイベント (テスト項目13用)
         $('#show-image-button').click(function() {
-            var imageUrl = '/show-image/1'; // 1番目の画像を表示
+            var baseUrl = window.location.pathname.includes('/public/') ? '/influencer_education/public' : '';
+            var imageUrl = baseUrl + '/show-image/1'; // 1番目の画像を表示
             window.location.href = imageUrl;
         });
     });

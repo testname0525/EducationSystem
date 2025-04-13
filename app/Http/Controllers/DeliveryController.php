@@ -15,7 +15,9 @@ class DeliveryController extends Controller
     {
         try {
             $user = Auth::user();
-            $curriculums = Curriculum::where('grade_id', $user->grade_id)->get();
+            // ここを修正：grade_idによるフィルタリングを一時的に無効化
+            // $curriculums = Curriculum::where('grade_id', $user->grade_id)->get();
+            $curriculums = Curriculum::with('deliveryTimes')->get(); // すべての講座を取得
             return view('user.delivery', compact('curriculums'));
         } catch (\Exception $e) {
             Log::error('Error in DeliveryController@index: ' . $e->getMessage());
@@ -79,7 +81,8 @@ class DeliveryController extends Controller
     {
         try {
             $curriculum = Curriculum::findOrFail($id);
-            return view('user.show_image', compact('curriculum'));
+            // ビューファイルのパスを修正
+            return view('user.show.image', compact('curriculum'));
         } catch (\Exception $e) {
             Log::error('Error in DeliveryController@showImage: ' . $e->getMessage());
             return back()->with('error', 'エラーが発生しました。');
