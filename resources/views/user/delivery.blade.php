@@ -73,6 +73,7 @@
         $('.completion-button').click(function() {
             var curriculumId = $(this).data('curriculum-id');
             var button = $(this);
+            var baseUrl = window.location.pathname.includes('/public/') ? '/influencer_education/public' : '';
             
             // ボタンの状態を直接変更（Ajaxリクエストを待たない）
             button.prop('disabled', true)
@@ -83,24 +84,21 @@
             // アラート表示（成功したと仮定）
             alert('受講完了が記録されました');
             
-            // Ajaxリクエストはテスト目的で省略
-            // 本番環境では以下のコードのコメントを外してください
-            /*
+            // Ajaxリクエスト修正版 - URLをフルパスに修正
             $.ajax({
-                url: '/delivery/' + curriculumId + '/progress',
+                url: baseUrl + '/delivery/' + curriculumId + '/progress',
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log('受講完了が記録されました');
+                    console.log('受講完了が記録されました:', response);
                 },
                 error: function(error) {
                     console.error('エラーが発生しました:', error);
                     // エラーが発生しても、UIは更新済みのまま
                 }
             });
-            */
         });
         
         // 戻るリンクのクリックイベント (テスト項目16用)
