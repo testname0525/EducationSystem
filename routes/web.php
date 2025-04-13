@@ -10,6 +10,9 @@ use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ProfileController;
 
 // 公開ルート
+Route::get('/show-image/{id}', [DeliveryController::class, 'showImage'])
+    ->middleware(['auth'])
+    ->name('show.image');
 Route::get('/', [TopController::class, 'index'])->name('user.top');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
@@ -43,3 +46,4 @@ Route::prefix('admin')->middleware(['auth:admin'])->name('admin.')->group(functi
     Route::resource('grades', App\Http\Controllers\Admin\GradeController::class);
     Route::resource('banners', App\Http\Controllers\Admin\BannerController::class);
 });
+

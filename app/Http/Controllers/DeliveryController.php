@@ -71,4 +71,18 @@ class DeliveryController extends Controller
             return response()->json(['success' => false], 500);
         }
     }
+    
+    /**
+     * 画像表示用メソッド（テスト項目13用）
+     */
+    public function showImage($id)
+    {
+        try {
+            $curriculum = Curriculum::findOrFail($id);
+            return view('user.show_image', compact('curriculum'));
+        } catch (\Exception $e) {
+            Log::error('Error in DeliveryController@showImage: ' . $e->getMessage());
+            return back()->with('error', 'エラーが発生しました。');
+        }
+    }
 }
